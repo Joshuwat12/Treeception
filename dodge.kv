@@ -1,0 +1,60 @@
+#:kivy 1.0.9
+
+<DodgeGame>:
+    Button:
+        text: "Back to root"
+        pos: 20, root.height - self.height - 20
+        size: 64,64
+        on_release: root.gotoNode(root.rootNode)
+    Button:
+        text: "Back one"
+        pos: 104, root.height - self.height - 20
+        size: 64,64
+        on_release: root.gotoNode(root.currentNode.parent)
+    Label:
+        text: root.dirDisplay
+        halign: "right"
+        valign: "top"
+        center_x: root.width / 2
+        top: root.height
+    Label:
+        text: root.valueDisplay
+        halign: "right"
+        valign: "top"
+        center_x: root.width - self.width / 2
+        top: root.height
+    Button:
+        text: root.buttonNames[0]
+        pos: root.buttonPos[0][0] * root.width, root.buttonPos[0][1] * root.height
+        #pos: 20, root.height / 2
+        size: 64,64
+        disabled: root.buttonsDisabled[0]
+        on_release: root.gotoNode(root.currentNode[0])
+    Button:
+        text: root.buttonNames[1]
+        pos: root.buttonPos[1][0] * root.width, root.buttonPos[1][1] * root.height
+        #pos: 104, root.height / 2
+        size: 64,64
+        disabled: root.buttonsDisabled[1]
+        on_release: root.gotoNode(root.currentNode[1])
+    Button:
+        text: root.buttonNames[2]
+        pos: root.buttonPos[2][0] * root.width, root.buttonPos[2][1] * root.height
+        #pos: 188, root.height / 2
+        size: 64,64
+        disabled: root.buttonsDisabled[2]
+        on_release: root.gotoNode(root.currentNode[2])
+    Button:
+        text: root.buttonNames[3]
+        pos: root.buttonPos[3][0] * root.width, root.buttonPos[3][1] * root.height
+        #pos: 272, root.height / 2
+        size: 64,64
+        disabled: root.buttonsDisabled[3]
+        on_release: root.gotoNode(root.currentNode[3])
+    Button:
+        text: root.buttonNames[4]
+        pos: root.buttonPos[4][0] * root.width, root.buttonPos[4][1] * root.height
+        #pos: 356, root.height / 2
+        size: 64,64
+        disabled: root.buttonsDisabled[4]
+        on_release: root.gotoNode(root.currentNode[4])
