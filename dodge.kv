@@ -23,38 +23,82 @@
         valign: "top"
         center_x: root.width - self.width / 2
         top: root.height
+
     Button:
         text: root.buttonNames[0]
         pos: root.buttonPos[0][0] * root.width, root.buttonPos[0][1] * root.height
-        #pos: 20, root.height / 2
         size: 64,64
         disabled: root.buttonsDisabled[0]
         on_release: root.gotoNode(root.currentNode[0])
     Button:
         text: root.buttonNames[1]
         pos: root.buttonPos[1][0] * root.width, root.buttonPos[1][1] * root.height
-        #pos: 104, root.height / 2
         size: 64,64
         disabled: root.buttonsDisabled[1]
         on_release: root.gotoNode(root.currentNode[1])
     Button:
         text: root.buttonNames[2]
         pos: root.buttonPos[2][0] * root.width, root.buttonPos[2][1] * root.height
-        #pos: 188, root.height / 2
         size: 64,64
         disabled: root.buttonsDisabled[2]
         on_release: root.gotoNode(root.currentNode[2])
     Button:
         text: root.buttonNames[3]
         pos: root.buttonPos[3][0] * root.width, root.buttonPos[3][1] * root.height
-        #pos: 272, root.height / 2
         size: 64,64
         disabled: root.buttonsDisabled[3]
         on_release: root.gotoNode(root.currentNode[3])
     Button:
         text: root.buttonNames[4]
         pos: root.buttonPos[4][0] * root.width, root.buttonPos[4][1] * root.height
-        #pos: 356, root.height / 2
         size: 64,64
         disabled: root.buttonsDisabled[4]
         on_release: root.gotoNode(root.currentNode[4])
+
+    Button:
+        text: "Add linear"
+        pos: 20,104
+        size: 64,64
+        disabled: root.disableQuery
+        on_release: root.addSearch("l")
+    Button:
+        text: "Add unordered"
+        pos: 20,20
+        size: 64,64
+        disabled: root.disableQuery
+        on_release: root.addSearch("u")
+    Button:
+        text: "Add integer"
+        pos: 104,104
+        size: 64,64
+        disabled: root.disableQuery
+        on_release: root.addSearch("i")
+    Button:
+        text: "Add string"
+        pos: 104,20
+        size: 64,64
+        disabled: root.disableQuery
+        on_release: root.addSearch("s")
+    Button:
+        text: "Backspace"
+        pos: 188,104
+        size: 64,64
+        disabled: root.disableQuery
+        on_release: root.backSearch()
+    Button:
+        text: "Clear"
+        pos: 188,20
+        size: 64,64
+        disabled: root.disableQuery
+        on_release: root.clearSearch()
+    Button:
+        text: "Search"
+        pos: root.width - self.width - 20, 20
+        size: 64,64
+        on_release: root.startSearch()
+    Label:
+        text: root.searchDisplay
+        halign: "center"
+        valign: "bottom"
+        center_x: root.width * 0.6
+        bottom: 0

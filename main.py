@@ -1,9 +1,12 @@
 from kivy.app import App
 from kivy.uix.widget import Widget
-from kivy.properties import StringProperty, ListProperty
+from kivy.properties import BooleanProperty, StringProperty, ListProperty
 from kivy.clock import Clock
 from tree import TreeNode
+from search import SearchManager
+from audio import Audio
 import random
+
 
 
 class DodgeGame(Widget):
@@ -22,6 +25,11 @@ class DodgeGame(Widget):
     buttonNames = ListProperty(childNames)
     positions = [(n/10, 0.5) for n in range(1,6)]
     buttonPos = ListProperty(positions)
+    searchQuery = ""
+    searchDisplay = StringProperty(searchQuery)
+    isSearching = False
+    disableQuery = BooleanProperty(isSearching)
+    searchManager = SearchManager()
 
     def update(self, dt):
         self.dirDisplay = self.currentNode.directory
@@ -31,18 +39,47 @@ class DodgeGame(Widget):
         self.childNames = [("" if self.isDisabled[n] else self.currentNode[n].name) for n in range(5)]
         self.buttonNames = self.childNames
         self.buttonPos = self.positions
+        self.searchDisplay = self.searchQuery
+        self.disableQuery = self.isSearching
+
+        if self.isSearching:
+            searchResult = self.searchManager.traverseNext(10)
+            self.gotoNode(searchResult[1])
+            if searchResult[0] != 0:
+                self.isSearching = False
+                if searchResult[0] == -1:
+                    Audio.playAudio("nochain.wav")
+                    self.gotoNode(self.rootNode)
 
     def gotoNode(self, node):
         """Switches to the given node for viewing"""
         if node != None:
-            if node.children == None:
-                node.createChildren()
+            node.createChildren()
             print([n.value for n in node.children])
             self.currentNode = node
             if node.value == False:
                 self.positions = [(random.random() * 0.8 + 0.1, random.random() * 0.2 + 0.4) for n in range(5)]
             else:
                 self.positions = [(n/10, 0.5) for n in range(1,6)]
+
+    def addSearch(self, item, caps="is"):
+        if len(self.searchQuery) == 0 or self.searchQuery[-1] not in caps:
+            self.searchQuery += item
+    def backSearch(self):
+        if len(self.searchQuery) > 0:
+            self.searchQuery = self.searchQuery[:-1]
+    def clearSearch(self):
+        self.searchQuery = ""
+
+    def startSearch(self):
+        if self.isSearching:
+            self.isSearching = False
+            self.searchManager.queue = []
+            self.searchManager.query = ""
+        elif len(self.searchQuery) > 0:
+            self.isSearching = True
+            self.searchManager.queue = [self.currentNode]
+            self.searchManager.query = self.searchQuery
 
 
 
