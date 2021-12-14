@@ -1,7 +1,6 @@
 from tree import TreeNode
 
 
-
 class SearchManager():
     """Manages chain searches"""
     def __init__(self):
@@ -18,20 +17,19 @@ class SearchManager():
         1 means a chain has been found, in which case the second value is the highest-level node in the chain."""
 
         if len(self.query) == 0:
-            return (1, self.queue[0])
+            return 1, self.queue[0]
 
         for n in range(speed):
             self.node = self.queue.pop(0)
             self.node.createChildren()
             chainNode = self.checkChain(self.node)
-            if chainNode != None:
-                return (1, chainNode)
+            if chainNode is not None:
+                return 1, chainNode
             self.queue += self.node.children
             if len(self.queue) == 0:
-                return (-1, self.node)
+                return -1, self.node
 
         return (0, self.node)
-
 
 
     def checkChain(self, node):
@@ -42,7 +40,7 @@ class SearchManager():
         for letter in self.query:
             highestNode = None
             for n in chainNodes:
-                if self.nodeMatchesLetter(n,letter):
+                if self.nodeMatchesLetter(n, letter):
                     highestNode = n
                     n.createChildren()
                     newNodes += n.children
@@ -51,13 +49,12 @@ class SearchManager():
         return highestNode
 
 
-
     def nodeMatchesLetter(self, node, letter):
         """Returns whether or not the given node's type correlates to the given letter"""
         if letter == 'l':
-            return node.value == True
+            return node.value is True
         elif letter == 'u':
-            return node.value == False
+            return node.value is False
         elif letter == 'i':
             return type(node.value) == int
         elif letter == 's':
